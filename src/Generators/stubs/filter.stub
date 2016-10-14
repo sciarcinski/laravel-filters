@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use Sciarcinski\LaravelFilters\Filter;
+
+class DummyClass extends Filter
+{
+    
+}

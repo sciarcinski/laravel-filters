@@ -1,0 +1,21 @@
+{
+    "name": "sciarcinski/laravel-filters",
+    "description": "Filter Eloquent",
+    "keywords": ["menu", "laravel", "laravel 5"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sławomir Ciarciński",
+            "email": "slawgos@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sciarcinski\\LaravelFilters\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
