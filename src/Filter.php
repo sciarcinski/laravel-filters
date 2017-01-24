@@ -23,7 +23,6 @@ abstract class Filter
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->filters = $request->get('filter');
     }
     
     /**
@@ -36,13 +35,15 @@ abstract class Filter
     
     /**
      * @param Builder $query
-     * @param $only
+     * @param $input
+     * @param array $only
      *
      * @return Builder
      */
-    public function apply(Builder $query, array $only = ['*'])
+    public function apply(Builder $query, $input = 'filter', array $only = ['*'])
     {
         $this->only = $only;
+        $this->getFilters($input);
         $this->applyFilters($query);
         
         return $this;
@@ -70,6 +71,16 @@ abstract class Filter
         return $this->query;
     }
     
+    /**
+     * @param string $input
+     */
+    protected function getFilters($input)
+    {
+        $this->filters = is_null($input) ?
+            $this->request()->all() :
+            $this->request()->get($input);
+    }
+
     /**
      * @param string $name
      *
