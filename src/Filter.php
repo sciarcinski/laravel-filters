@@ -14,6 +14,8 @@ abstract class Filter
     protected $query;
     
     protected $filters;
+    
+    protected $only = ['*'];
 
     /**
      * @param Request $request
@@ -31,14 +33,16 @@ abstract class Filter
     {
         return $this->request;
     }
-
+    
     /**
      * @param Builder $query
+     * @param $only
      *
      * @return Builder
      */
-    public function apply(Builder $query)
+    public function apply(Builder $query, array $only = ['*'])
     {
+        $this->only = $only;
         $this->applyFilters($query);
         
         return $this;
@@ -57,7 +61,7 @@ abstract class Filter
             foreach ($this->filters as $filter => $value) {
                 $method = $this->getFilterMethod($filter);
                 
-                if (method_exists($this, $method)) {
+                if ($this->canUseFilter($filter) && method_exists($this, $method)) {
                     $this->$method($value);
                 }
             }
@@ -76,6 +80,20 @@ abstract class Filter
         return 'apply' . studly_case(str_replace('.', ' ', $name));
     }
     
+    /**
+     * @param string $filter
+     *
+     * @return bool
+     */
+    protected function canUseFilter($filter)
+    {
+        if (array_first($this->only) === '*') {
+            return true;
+        }
+        
+        return in_array($filter, $this->only);
+    }
+
     /**
      * @param $method
      * @param $args
