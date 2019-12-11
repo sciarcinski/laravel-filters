@@ -2,8 +2,10 @@
 
 namespace Sciarcinski\LaravelFilters;
 
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 abstract class Filter
 {
@@ -12,9 +14,9 @@ abstract class Filter
 
     /** @var Builder */
     protected $query;
-    
+
     protected $filters;
-    
+
     protected $only = ['*'];
 
     /**
@@ -24,7 +26,7 @@ abstract class Filter
     {
         $this->request = $request;
     }
-    
+
     /**
      * @return Request
      */
@@ -32,7 +34,7 @@ abstract class Filter
     {
         return $this->request;
     }
-    
+
     /**
      * @param Builder $query
      * @param $input
@@ -45,10 +47,10 @@ abstract class Filter
         $this->only = $only;
         $this->getFilters($input);
         $this->applyFilters($query);
-        
+
         return $this;
     }
-    
+
     /**
      * @param Builder $query
      *
@@ -57,20 +59,20 @@ abstract class Filter
     protected function applyFilters(Builder $query)
     {
         $this->query = $query;
-        
+
         if (is_array($this->filters)) {
             foreach ($this->filters as $filter => $value) {
                 $method = $this->getFilterMethod($filter);
-                
+
                 if ($this->canUseFilter($filter) && method_exists($this, $method)) {
                     $this->$method($value);
                 }
             }
         }
-        
+
         return $this->query;
     }
-    
+
     /**
      * @param string $input
      */
@@ -88,9 +90,9 @@ abstract class Filter
      */
     protected function getFilterMethod($name)
     {
-        return 'apply' . studly_case(str_replace('.', ' ', $name));
+        return 'apply' . Str::studly(str_replace('.', ' ', $name));
     }
-    
+
     /**
      * @param string $filter
      *
@@ -98,10 +100,10 @@ abstract class Filter
      */
     protected function canUseFilter($filter)
     {
-        if (array_first($this->only) === '*') {
+        if ('*' === Arr::first($this->only)) {
             return true;
         }
-        
+
         return in_array($filter, $this->only);
     }
 

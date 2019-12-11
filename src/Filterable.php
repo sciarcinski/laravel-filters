@@ -2,8 +2,9 @@
 
 namespace Sciarcinski\LaravelFilters;
 
-use Sciarcinski\LaravelFilters\Filter;
-
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder filtered($filter, $input = 'filter', array $use_only = ['*'])
+ */
 trait Filterable
 {
     /**
@@ -16,10 +17,10 @@ trait Filterable
      */
     public function scopeFiltered($query, $filter, $input = 'filter', array $use_only = ['*'])
     {
-        if (!$filter instanceof Filter) {
+        if (! $filter instanceof Filter) {
             $filter = app()->make($filter);
         }
-        
+
         return $filter->apply($query, $input, $use_only);
     }
 }

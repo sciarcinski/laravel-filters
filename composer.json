@@ -1,7 +1,7 @@
 {
     "name": "sciarcinski/laravel-filters",
     "description": "Filter Eloquent",
-    "keywords": ["menu", "laravel", "laravel 5"],
+    "keywords": ["menu", "laravel", "laravel 5", "laravel 6"],
     "license": "MIT",
     "authors": [
         {

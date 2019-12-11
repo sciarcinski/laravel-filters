@@ -12,21 +12,21 @@ class FilterMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $name = 'filter:make';
-    
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Create a new Filter class.';
-    
+
     /**
      * The type of class being generated.
      *
      * @var string
      */
     protected $type = 'Filter';
-    
+
     /**
      * The model class to be used by menu.
      *
@@ -40,21 +40,22 @@ class FilterMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $filename;
-    
+
     /**
      * Build the class with the given name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
         $stub = $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
-        
+
         return $stub;
     }
-    
+
     /**
      * Get the stub file for the generator.
      *
@@ -64,11 +65,12 @@ class FilterMakeCommand extends GeneratorCommand
     {
         return __DIR__ . '/stubs/filter.stub';
     }
-    
+
     /**
      * Get the default namespace for the class.
      *
-     * @param  string $rootNamespace
+     * @param string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
